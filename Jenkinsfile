@@ -8,21 +8,21 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh '
+                sh '''
             python3 -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
-        '
+        '''
             }
         }
 
         stage('Unit Test') {
     steps {
-        sh '
+        sh '''
             . venv/bin/activate
             python -m unittest discover -s . -p "test_*.py"
-        '
+        '''
     }
 }
 
