@@ -8,14 +8,24 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+        '
             }
         }
+
         stage('Unit Test') {
-            steps {
-                sh 'python -m unittest discover -s . -p "test_*.py"'
-            }
-        }
+    steps {
+        sh '
+            . venv/bin/activate
+            python -m unittest discover -s . -p "test_*.py"
+        '
+    }
+}
+
         stage('Docker Build') {
             steps {
                 sh 'docker build -t todo-app .'
